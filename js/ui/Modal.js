@@ -45,7 +45,10 @@ class Modal {
    * Удаляет обработчики событий
    * */
   unregisterEvents() {
-    this.element.querySelector( `[data-dismiss="modal"]` ).removeEventListener('click');
+    this.element.querySelector( `[data-dismiss="modal"]` ).removeEventListener('click', (event) => {
+      this.onClose(event.target);
+      event.preventDefault();
+    });
   }
   /**
    * Открывает окно: устанавливает CSS-свойство display
