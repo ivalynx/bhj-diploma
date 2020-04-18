@@ -5,17 +5,12 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
-  constructor() {
-    this.HOST = Entity.HOST;
-    this.URL = '/user';
-  };
   /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
    * */
   static setCurrent(user) {
-    userStringlify = JSON.stringify(user);
-    localStorage.setItem('user', userStringlify);
+    localStorage.setItem( 'user', JSON.stringify(user) );
   }
 
   /**
@@ -31,11 +26,7 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    try {
-      return JSON.parse( localStorage.getItem('user') );
-    } catch (error) {
-      return undefined;
-    }
+      return localStorage.user && JSON.parse( localStorage.getItem('user') );
   }
 
   /**
@@ -47,21 +38,16 @@ class User {
       url: this.HOST + this.URL + '/current',
       method: 'GET',
       data,
-      callback( err, response ) {
-        if ( response && response.user ) {
+      callback: ( err, response ) => {
+        if( response && response.user ) {
           User.setCurrent( response.user );
+        } else if( !response.success ) {
+          User.unsetCurrent();
         }
         callback( err, response );
       },
-    }    
-    try {
-      const response = JSON.parse( createRequest(request) ) ;      
-      if( !response.success ) {
-        User.unsetCurrent();
-      }
-    } catch (error) {
-      return null;
     }
+    return createRequest(request);
   }
 
   /**
@@ -75,23 +61,14 @@ class User {
       url: this.HOST + this.URL + '/login',
       method: 'POST',
       data,
-      callback( err, response ) {
+      callback: ( err, response ) => {
         if ( response && response.user ) {
           User.setCurrent( response.user );
         }
         callback( err, response );
       },
     }
-    createRequest(request);
-    // try {      не уверена, что нужна эта конструкция в свете того, что метод был вызвал в коллбеке
-    //   const response = JSON.parse( createRequest(request) ) ;      
-    //   if( response.success ) {
-    //     this.setCurrent(response.user);
-    //   } 
-    // } catch (error) {
-    //   return null;
-    // }
-
+    return createRequest(request);
   }
 
   /**
@@ -105,13 +82,14 @@ class User {
       url: this.HOST + this.URL + '/register',
       method: 'POST',
       data,
-      callback( err, response ) {
+      callback: ( err, response ) => {
         if ( response && response.user ) {
           User.setCurrent( response.user );
         }
         callback( err, response );
       },
     }
+    return createRequest(request);
   }
 
   /**
@@ -123,8 +101,8 @@ class User {
       url: this.HOST + this.URL + '/register',
       method: 'POST',
       data,
-      callback( err, response ) {
-        if ( response ) {
+      callback: ( err, response ) => {
+        if ( response.success ) {
           User.unsetCurrent();
         }
         callback( err, response );
@@ -133,3 +111,6 @@ class User {
     createRequest(request);
   }
 }
+
+User.HOST = Entity.HOST;
+User.URL = '/user';

@@ -5,11 +5,6 @@
  * */
 class Entity {
 
-  constructor() {
-    this.URL = '';
-    this.HOST = 'https://bhj-diplom.letsdocode.ru';
-  }
-
   /**
    * Запрашивает с сервера список данных.
    * Это могут быть счета или доходы/расходы
@@ -38,13 +33,9 @@ class Entity {
     const request = {
       url: this.HOST + this.URL,
       method: 'POST',
-      data: {},
+      data: Object.assign({ _method: 'PUT' }, data ),
       callback,
     };
-    console.log(request.data);
-    Object.assign(request.data, data);
-    request.data._method = 'PUT';
-    console.log(request.data);    
     try {
       return JSON.parse( createRequest(request) ) ;
     } catch (error) {
@@ -60,13 +51,10 @@ class Entity {
     const request = {
       url: this.HOST + this.URL,
       method: 'GET',
-      data: {},
+      data: Object.assign({}, data ),
       callback,
     };
-    console.log(request.data);
-    Object.assign(request.data, data);
-    request.data.id = id;
-    console.log(request.data);    
+    request.data.id = id; 
     try {
       return JSON.parse( createRequest(request) ) ;
     } catch (error) {
@@ -81,15 +69,11 @@ class Entity {
   static remove( id = '', data, callback = f => f ) {    
     const request = {
       url: this.HOST + this.URL,
-      method: 'POST',
-      data: {},
+      method: 'POST',      
+      data: Object.assign({ _method: 'DELETE' }, data ),
       callback,
     };
-    console.log(request.data);
-    Object.assign(request.data, data);
     request.data.id = id;
-    request.data._method = 'DELETE';
-    console.log(request.data);
     try {
       return JSON.parse( createRequest(request) ) ;
     } catch (error) {
@@ -98,3 +82,5 @@ class Entity {
   }
 }
 
+Entity.URL = '';
+Entity.HOST = 'https://bhj-diplom.letsdocode.ru';

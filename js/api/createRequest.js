@@ -41,7 +41,7 @@ const createRequest = (options = {}) => {
 // В случае успешного выполнения кода, необходимо вызвать функцию, заданную в callback и передать туда данные:
   xhr.onreadystatechange = () => {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      options.callback(null, xhr.responseText);
+      options.callback(null, xhr.response);
     }
   };
   console.log(xhr);
