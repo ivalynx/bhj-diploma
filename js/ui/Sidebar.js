@@ -35,16 +35,13 @@ class Sidebar {
    * */
   static initAuthLinks() {
     const sidebarMenu = document.querySelector('.sidebar-menu');
-    let modalOpen = null;
     sidebarMenu.addEventListener('click', (event) => {
       const menuItem = event.target.closest('.menu-item');
       if( menuItem ) {
         if( menuItem.classList.contains('menu-item_login') ) {
-          modalOpen = App.getModal('login');
-          modalOpen.open();
+          App.getModal('login').open();
         } else if( menuItem.classList.contains('menu-item_register') ) {
-          modalOpen = App.getModal('register');
-          modalOpen.open(); 
+          App.getModal('register').open(); 
         } else if( menuItem.classList.contains('menu-item_logout') ) {
           User.logout({}, (err, response) => {
             if(response.success) {
