@@ -37,7 +37,7 @@ class Modal {
    * Закрывает текущее окно (Modal.close())
    * */
   onClose( event ) {
-    const btn = event.target.closest('.close');
+    const btn = event.target.closest('button');
     if( btn && btn.hasAttribute('data-dismiss') ) {
       this.close();
       event.preventDefault();
