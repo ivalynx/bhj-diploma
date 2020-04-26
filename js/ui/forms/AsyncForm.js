@@ -59,8 +59,8 @@ class AsyncForm {
    * */
   submit() {
     this.onSubmit({
-      url: this.action,
-      method: this.method,
+      url: this.element.action,
+      method: this.element.method,
       data: this.getData(),
     });    
   }
