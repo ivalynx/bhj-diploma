@@ -13,7 +13,7 @@ const createRequest = (options = {}) => {
     };
   } else {
     url += '?';
-    for ( let [key, value] of Object.entries(options.data) ) {
+    for ( let [key, value] of Object.entries(options.data || {}) ) {
       url += `${key}=${value}&`;
     };
   };

@@ -28,27 +28,26 @@ class Modal {
    * (с помощью метода Modal.onClose)
    * */
   registerEvents() {
-    this.element.querySelector( `[data-dismiss="modal"]` ).addEventListener('click', (event) => {
-      this.onClose(event.target);
-      event.preventDefault();
-    });
+    this.onClose = this.onClose.bind( this );
+    this.element.addEventListener('click', event => this.onClose(event));
   }
 
   /**
    * Срабатывает после нажатия на элементы, закрывающие окно.
    * Закрывает текущее окно (Modal.close())
    * */
-  onClose( e ) {
-    this.close();
+  onClose( event ) {
+    const btn = event.target.closest('.close');
+    if( btn && btn.hasAttribute('data-dismiss') ) {
+      this.close();
+      event.preventDefault();
+    }
   }
   /**
    * Удаляет обработчики событий
    * */
   unregisterEvents() {
-    this.element.querySelector( `[data-dismiss="modal"]` ).removeEventListener('click', (event) => {
-      this.onClose(event.target);
-      event.preventDefault();
-    });
+    this.element.removeEventListener('click', event => this.onClose(event));
   }
   /**
    * Открывает окно: устанавливает CSS-свойство display

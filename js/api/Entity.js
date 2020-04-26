@@ -17,11 +17,7 @@ class Entity {
       data,
       callback,
     }
-    try {
-      return JSON.parse( createRequest(request) ) ;
-    } catch (error) {
-      return null;
-    }
+    return createRequest(request);
   }
 
   /**
@@ -36,11 +32,7 @@ class Entity {
       data: Object.assign({ _method: 'PUT' }, data ),
       callback,
     };
-    try {
-      return JSON.parse( createRequest(request) ) ;
-    } catch (error) {
-      return null;
-    }
+    return createRequest(request);
   }
 
   /**
@@ -55,11 +47,7 @@ class Entity {
       callback,
     };
     request.data.id = id; 
-    try {
-      return JSON.parse( createRequest(request) ) ;
-    } catch (error) {
-      return null;
-    }
+    return createRequest(request);
   }
 
   /**
@@ -74,11 +62,7 @@ class Entity {
       callback,
     };
     request.data.id = id;
-    try {
-      return JSON.parse( createRequest(request) ) ;
-    } catch (error) {
-      return null;
-    }
+    return createRequest(request);
   }
 }
 
