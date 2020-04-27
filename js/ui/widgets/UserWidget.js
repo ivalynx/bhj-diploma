@@ -11,7 +11,10 @@ class UserWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    if( element == null ) {
+      throw new Error('Невозможно добавить пустой элемент в конструктор UserWidget')
+    }
+    this.element = element;
   }
 
   /**
@@ -22,6 +25,10 @@ class UserWidget {
    * авторизованного пользователя
    * */
   update() {
-
+    const user = User.current();
+    if(user) {
+      const username = document.querySelector('.user-name');
+      username.textContent = user.name;
+    }
   }
 }
