@@ -13,12 +13,8 @@ class CreateAccountForm extends AsyncForm {
   onSubmit( options ) {
     Account.create(options, (err, response) => {
       if(response) {
-        let formData = new FormData(myForm);
-        for (let entry of formData.entries()) {
-          formData.delete(entry[0]);
-        };
+        this.element.reset();
         App.update();
-        this.element.closest('.modal').close();
       } else {
         console.log(err);
       }

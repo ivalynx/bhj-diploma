@@ -13,13 +13,11 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor( element ) {
-    try {
-      element != null;
+    if( element == null ) {
+      throw new Error('Невозможно добавить пустой элемент в конструктор')
+    }
       this.element = element;
       this.registerEvents();
-    } catch (error) {
-      console.log(error.message);
-    }
   }
 
   /**
@@ -58,10 +56,6 @@ class AsyncForm {
    * данные, полученные из метода getData()
    * */
   submit() {
-    this.onSubmit({
-      url: this.element.action,
-      method: this.element.method,
-      data: this.getData(),
-    });    
+    this.onSubmit(this.getData());    
   }
 }

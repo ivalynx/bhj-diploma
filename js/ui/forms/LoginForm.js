@@ -13,12 +13,9 @@ class LoginForm extends AsyncForm {
   onSubmit( options ) {
     User.login(options, (err, response) => {
       if(response) {
-        let formData = new FormData(document.getElementById(this.element.id));
-        for (let entry of formData.entries()) {
-          formData.delete(entry[0]);
-        };
+        this.element.reset();
         App.setState( 'user-logged' );
-        this.element.closest('.modal').close();
+        App.getModal('login').close();
       } else {
         console.log(err);
       }

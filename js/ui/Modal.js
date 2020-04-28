@@ -13,13 +13,11 @@ class Modal {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    try {
-      element != null;
+    if( element == null ) {
+      throw new Error('Невозможно добавить пустой элемент в конструктор')
+    }
       this.element = element;
       this.registerEvents();
-    } catch (error) {
-      console.log(error.message);
-    }
   }
 
   /**
