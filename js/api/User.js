@@ -98,7 +98,7 @@ class User {
    * */
   static logout( data, callback = f => f ) {
     const request = {
-      url: this.HOST + this.URL + '/register',
+      url: this.HOST + this.URL + '/logout',
       method: 'POST',
       data,
       callback: ( err, response ) => {
