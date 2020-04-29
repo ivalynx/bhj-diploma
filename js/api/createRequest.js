@@ -44,6 +44,5 @@ const createRequest = (options = {}) => {
       options.callback(null, xhr.response);
     }
   };
-  console.log(xhr);
   return xhr;
 };
