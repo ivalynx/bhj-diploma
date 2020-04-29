@@ -13,7 +13,12 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    if( element == null ) {
+      throw new Error('Невозможно добавить пустой элемент в конструктор UserWidget')
+    }
+    this.element = element;
+    this.registerEvents();
+    this.update();
   }
 
   /**
@@ -24,7 +29,14 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-
+    const accountsPanel = document.querySelector('.accounts-panel');
+    accountsPanel.addEventListener('click', (event) => {
+      if( event.target.classList.contains('create-account') ) {
+        App.getModal('createAccount').open();
+      } else if( event.target.classList.contains('account') ) {
+        this.onSelectAccount(event.target);
+      }
+    });
   }
 
   /**
@@ -38,6 +50,17 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
+    const data = User.current();
+    if(data) {
+      Account.list(data, (err, response) => {
+        if(response) {
+          this.clear();
+          this.renderItem(response.data);
+        } else {
+          console.log(err)
+        };
+      });
+    }
 
   }
 
@@ -47,7 +70,10 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-
+    const accounts = document.querySelectorAll('.accounts-panel .account');
+    for(const account of accounts) {
+      account.remove();
+    }
   }
 
   /**
@@ -58,7 +84,9 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount( element ) {
-
+    document.querySelector('.accounts-panel .account.active').classList.remove('active');
+    element.classList.add('active');
+    App.showPage( 'transactions', { account_id: element.id });
   }
 
   /**
@@ -67,7 +95,18 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML( item ) {
-
+    let result = null;
+    for(let i = 0; i < item.length; i++) {
+      result += `
+      <li class="account" data-id="${item[i].id}">
+        <a href="#">
+          <span>${item[i].name}</span> /
+          <span>${item[i].sum}</span>
+        </a>
+      </li>
+      `;
+    }
+    return result;
   }
 
   /**
@@ -76,7 +115,9 @@ class AccountsWidget {
    * AccountsWidget.getAccountHTML HTML-код элемента
    * и добавляет его внутрь элемента виджета
    * */
-  renderItem( item ) {
-
+  renderItem( item ) { //item = response.data / Array
+    const html = this.getAccountHTML(item);
+    const accountsPanel = document.querySelector('.accounts-panel');
+    accountsPanel.insertAdjacentHTML('beforeEnd', html);
   }
 }
