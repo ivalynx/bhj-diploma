@@ -11,7 +11,11 @@ class TransactionsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    if( element == null ) {
+      throw new Error('Невозможно добавить пустой элемент в конструктор')
+    }
+      this.element = element;
+      this.registerEvents();
   }
   /**
    * Регистрирует обработчики нажатия на
@@ -20,6 +24,13 @@ class TransactionsWidget {
    * экземпляра окна
    * */
   registerEvents() {
-
+    const widget = document.querySelector('.transactions-panel');
+    widget.addEventListener('click', event => {
+      if( event.target.classList.contains('create-income-button') ) {
+        App.getModal('newIncome').open();
+      } else if( event.target.classList.contains('create-expense-button') ) {
+        App.getModal('newExpense').open();
+      }
+    });
   }
 }

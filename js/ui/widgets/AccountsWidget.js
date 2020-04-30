@@ -33,7 +33,7 @@ class AccountsWidget {
     accountsPanel.addEventListener('click', (event) => {
       if( event.target.classList.contains('create-account') ) {
         App.getModal('createAccount').open();
-      } else if( event.target.classList.contains('account') ) {
+      } else if( event.target.closest('.account') ) {
         this.onSelectAccount(event.target);
       }
     });
@@ -53,7 +53,7 @@ class AccountsWidget {
     const data = User.current();
     if(data) {
       Account.list(data, (err, response) => {
-        if(response) {
+        if(response.success) {
           this.clear();
           this.renderItem(response.data);
         } else {
@@ -85,8 +85,8 @@ class AccountsWidget {
    * */
   onSelectAccount( element ) {
     document.querySelector('.accounts-panel .account.active').classList.remove('active');
-    element.classList.add('active');
-    App.showPage( 'transactions', { account_id: element.id });
+    element.closest('.account').classList.add('active');
+    App.showPage( 'transactions', { account_id: element.id } );
   }
 
   /**
@@ -95,16 +95,23 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML( item ) {
-    let result = null;
+    let result = '';
     for(let i = 0; i < item.length; i++) {
-      result += `
-      <li class="account" data-id="${item[i].id}">
-        <a href="#">
-          <span>${item[i].name}</span> /
-          <span>${item[i].sum}</span>
-        </a>
-      </li>
-      `;
+      if(i===0){
+        result += `<li class="account active" data-id="${item[i].id}">
+          <a href="#">
+            <span>${item[i].name}</span> /
+            <span>${item[i].sum}</span>
+          </a>
+        </li>`;
+      } else {
+        result += `<li class="account" data-id="${item[i].id}">
+          <a href="#">
+            <span>${item[i].name}</span> /
+            <span>${item[i].sum}</span>
+          </a>
+        </li>`;
+      }
     }
     return result;
   }
@@ -115,7 +122,7 @@ class AccountsWidget {
    * AccountsWidget.getAccountHTML HTML-код элемента
    * и добавляет его внутрь элемента виджета
    * */
-  renderItem( item ) { //item = response.data / Array
+  renderItem( item ) {
     const html = this.getAccountHTML(item);
     const accountsPanel = document.querySelector('.accounts-panel');
     accountsPanel.insertAdjacentHTML('beforeEnd', html);
