@@ -115,7 +115,7 @@ class TransactionsPage {
     this.lastOptions = options;
     const data = User.current();
     console.log(options);
-    console.log(options.account_id);
+    console.log(`options.account_id: '${options.account_id}'`) // Почему он пустой? :(((
     Account.get(options.account_id, data, (err, response) => {
       if(response.success) {
         console.log(response);
@@ -123,7 +123,7 @@ class TransactionsPage {
       } else if (response.success === false) {
         console.log(response.error);
       } else {
-        console.log('Account.get false becouse')
+        console.log('Account.get false because options.account_id пустой')
         console.log(response);
         console.log(err);
       };
@@ -135,7 +135,7 @@ class TransactionsPage {
       } else if (response.success === false) {
         console.log(response.error);
       } else {
-        console.log('Transaction.list false becouse')
+        console.log('Transaction.list false because')
         console.log(response);
         console.log(err);
       };
