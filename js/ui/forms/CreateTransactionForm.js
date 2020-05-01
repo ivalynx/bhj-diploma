@@ -10,6 +10,7 @@ class CreateTransactionForm extends AsyncForm {
    * */
   constructor( element ) {
     super(element);
+    this.renderAccountsList();
   }
 
   /**
@@ -23,14 +24,12 @@ class CreateTransactionForm extends AsyncForm {
         for(let i = 0; i < response.data.length; i++) {
           html += `<option value="${response.data[i].id}">${response.data[i].name}</option>`;
         }
-        const selectIncome = document.querySelector('#income-accounts-list');        
-        const selectExpense = document.querySelector('#expense-accounts-list');
-        if(!selectIncome.innerHTML) {
-          selectIncome.innerHTML = html;
-        } else if(!selectExpense.innerHTML) {
-          selectExpense.innerHTML = html;
-        }
+        const accoutSelect = this.element.querySelector('.accounts-select');
+        accoutSelect.innerHTML = html;
+      } else if (response.success === false) {
+        console.log(response.error);
       } else {
+        console.log(response)
         console.log(err);
       };
     });
