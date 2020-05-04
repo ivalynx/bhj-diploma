@@ -102,28 +102,29 @@ class TransactionsPage {
     }
     this.lastOptions = options;
     const data = User.current();
+    console.log(`options:`);
+    console.log(options);
+    console.log(`User.current:`);
     console.log(data);
     Account.get(options, data, (err, response) => {
       if(response.success) {
+        console.log('Account.get response:');
         console.log(response);
         this.renderTitle(response.data);
       } else if (response.success === false) {
-        console.log(response.error);
-      } else {
         console.log('Account.get false because options.account_id пустой')
         console.log(response);
+      } else {
         console.log(err);
       };
     });
     Transaction.list(options, (err, response) => {
       if(response.success) {
-        console.log(response);
         this.renderTransactions(response.data);
-      } else if (response.success === false) {
-        console.log(response.error);
-      } else {
+      } else if (response.success === false) {        
         console.log('Transaction.list false because')
         console.log(response);
+      } else {
         console.log(err);
       };
     });
