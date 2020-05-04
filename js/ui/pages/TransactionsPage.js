@@ -54,9 +54,8 @@ class TransactionsPage {
       return null;
     } else 
     if(confirm('Вы действительно хотите удалить счёт?')) {
-      const currentAccount = document.querySelector('.accounts-panel .active'); // Добываем id счёта
       const data = User.current();
-      Account.remove(currentAccount.dataset.id, data, (err, response) => {
+      Account.remove(this.lastOptions.account_id, data, (err, response) => {
         if(response.success) {
           console.log('Account.remove response:')
           console.log(response);
@@ -103,6 +102,7 @@ class TransactionsPage {
     }
     this.lastOptions = options;
     const data = User.current();
+    console.log(data);
     Account.get(options, data, (err, response) => {
       if(response.success) {
         console.log(response);
@@ -157,7 +157,6 @@ class TransactionsPage {
     const formattedDate = new Date(date.replace(' ', 'T'));
     const month = formattedDate.toLocaleString('ru', { month: 'long' });
     const result = `${formattedDate.getDate()} ${month} ${formattedDate.getFullYear()} г. в ${formattedDate.getHours()}:${formattedDate.getMinutes()}`;
-    console.log(`formatDate: ${result}`);
     return result;
   }
 
@@ -179,8 +178,8 @@ class TransactionsPage {
             <span class="fa fa-money fa-2x"></span>
         </div>
         <div class="transaction__info">
-            <h4 class="transaction__title">${id.name}</h4>
-            <div class="transaction__date">${formatDate(item.date)}</div>
+            <h4 class="transaction__title">${item.name}</h4>
+            <div class="transaction__date">${this.formatDate(item.updated_at)}</div>
         </div>
       </div>
       <div class="col-md-3">
@@ -191,7 +190,7 @@ class TransactionsPage {
       </div>
       <div class="col-md-2 transaction__controls">
           <button class="btn btn-danger transaction__remove" data-id="${item.id}">
-              <i class="fa fa-trash"></i>  
+              <i class="fa fa-trash">Удалить транзакцию</i>  
           </button>
       </div>
   </div>
@@ -205,7 +204,7 @@ class TransactionsPage {
   renderTransactions( data ) {
     let html = '';
     data.forEach(element => {
-      html += getTransactionHTML(element);
+      html += this.getTransactionHTML(element);
     });
     const content = document.querySelector('.content-wrapper .content');
     content.innerHTML = html;
