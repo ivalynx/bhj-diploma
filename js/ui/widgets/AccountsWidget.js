@@ -29,8 +29,7 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-    const accountsPanel = document.querySelector('.accounts-panel');
-    accountsPanel.addEventListener('click', (event) => {
+    this.element.addEventListener('click', (event) => {
       if( event.target.classList.contains('create-account') ) {
         App.getModal('createAccount').open();
       } else if( event.target.closest('.account') ) {
