@@ -22,15 +22,16 @@ class TransactionsPage {
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-    const currentAccount = document.querySelector('.accounts-panel .active');
-    if(this.lastOptions) {
-      this.render(this.lastOptions);
-    } else if(currentAccount) {
-      console.log(currentAccount.dataset.id);
-      this.render({
-        'account_id': currentAccount.dataset.id,
-      });
-    }
+    this.render( this.lastOptions );
+    // const currentAccount = document.querySelector('.accounts-panel .active');
+    // if(this.lastOptions) {
+    //   this.render(this.lastOptions);
+    // } else if(currentAccount) {
+    //   console.log(currentAccount.dataset.id);
+    //   this.render({
+    //     'account_id': currentAccount.dataset.id,
+    //   });
+    // }
   }
 
   /**
@@ -40,16 +41,13 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    const btnRemoveAccount = document.querySelector('.remove-account');
-    const btnRemoveTransaction = document.querySelector('transaction__remove');
-    btnRemoveAccount.addEventListener('click', () => {
-      this.removeAccount();
-    });
-    if(btnRemoveTransaction) {
-      btnRemoveTransaction.addEventListener('click', event => {
+    this.element.addEventListener('click', (event) => {
+      if( event.target.classList.contains('remove-account') ){
+        this.removeAccount();
+      } else if( event.target.classList.contains('transaction__remove') ) {
         this.removeTransaction(event.target.dataset.id);
-      });
-    }
+      }
+    });
   }
 
   /**
@@ -114,9 +112,7 @@ class TransactionsPage {
     }
     this.lastOptions = options;
     const data = User.current();
-    console.log(options);
-    console.log(`options.account_id: '${options.account_id}'`) // Почему он пустой? :(((
-    Account.get(options.account_id, data, (err, response) => {
+    Account.get(options, data, (err, response) => {
       if(response.success) {
         console.log(response);
         this.renderTitle(response.data);
@@ -128,7 +124,7 @@ class TransactionsPage {
         console.log(err);
       };
     });
-    Transaction.list(data, (err, response) => {
+    Transaction.list(options, (err, response) => {
       if(response.success) {
         console.log(response);
         this.renderTransactions(response.data);
