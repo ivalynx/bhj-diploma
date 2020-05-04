@@ -57,8 +57,8 @@ class TransactionsPage {
       const data = User.current();
       Account.remove(this.lastOptions.account_id, data, (err, response) => {
         if(response.success) {
-          console.log('Account.remove response:')
-          console.log(response);
+          // console.log('Account.remove response:')
+          // console.log(response);
           App.update();
         } else if (response.success === false) {
           console.log(response.error);
@@ -111,19 +111,15 @@ class TransactionsPage {
         console.log('Account.get response:');
         console.log(response);
         this.renderTitle(response.data);
-      } else if (response.success === false) {
+      } else {
         console.log('Account.get false because options.account_id пустой')
         console.log(response);
-      } else {
         console.log(err);
       };
     });
     Transaction.list(options, (err, response) => {
       if(response.success) {
         this.renderTransactions(response.data);
-      } else if (response.success === false) {        
-        console.log('Transaction.list false because')
-        console.log(response);
       } else {
         console.log(err);
       };
