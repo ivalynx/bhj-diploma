@@ -34,7 +34,7 @@ class AccountsWidget {
       if( event.target.classList.contains('create-account') ) {
         App.getModal('createAccount').open();
       } else if( event.target.closest('.account') ) {
-        this.onSelectAccount(event.target);
+        this.onSelectAccount( event.target.closest('.account'));
       }
     });
   }
@@ -86,7 +86,7 @@ class AccountsWidget {
   onSelectAccount( element ) {
     document.querySelector('.accounts-panel .account.active').classList.remove('active');
     element.closest('.account').classList.add('active');
-    App.showPage( 'transactions', { account_id: element.id } );
+    App.showPage( 'transactions', { account_id: element.dataset.id } );
   }
 
   /**
