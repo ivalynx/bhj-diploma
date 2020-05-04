@@ -23,15 +23,6 @@ class TransactionsPage {
    * */
   update() {
     this.render( this.lastOptions );
-    // const currentAccount = document.querySelector('.accounts-panel .active');
-    // if(this.lastOptions) {
-    //   this.render(this.lastOptions);
-    // } else if(currentAccount) {
-    //   console.log(currentAccount.dataset.id);
-    //   this.render({
-    //     'account_id': currentAccount.dataset.id,
-    //   });
-    // }
   }
 
   /**
@@ -108,7 +99,7 @@ class TransactionsPage {
    * */
   render( options ) { 
     if(!options) {
-      throw new Error('Невозможно получить данные по несуществующему счёту');
+      return null;
     }
     this.lastOptions = options;
     const data = User.current();
