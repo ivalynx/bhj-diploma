@@ -96,19 +96,12 @@ class TransactionsPage {
       return null;
     }
     this.lastOptions = options;
-    const data = User.current();
-    console.log(`options:`);
-    console.log(options);
-    console.log(`User.current:`);
-    console.log(data);
-    Account.get(options.account_id, data, (err, response) => {
+    Account.get(options.account_id, {}, (err, response) => {
       if(response.success) {
-        console.log('Account.get response:');
         console.log(response);
-        this.renderTitle(response.data);
+        console.log(response.data.name);
+        this.renderTitle(response.data.name);
       } else {
-        console.log('Account.get false because options.account_id пустой')
-        console.log(response);
         console.log(err);
       };
     });
