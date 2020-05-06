@@ -54,14 +54,9 @@ class TransactionsPage {
       return null;
     } else 
     if(confirm('Вы действительно хотите удалить счёт?')) {
-      const data = User.current();
-      Account.remove(this.lastOptions.account_id, data, (err, response) => {
+      Account.remove(this.lastOptions.account_id, {}, (err, response) => {
         if(response.success) {
-          // console.log('Account.remove response:')
-          // console.log(response);
           App.update();
-        } else if (response.success === false) {
-          console.log(response.error);
         } else {
           console.log(err);
         };
@@ -106,7 +101,7 @@ class TransactionsPage {
     console.log(options);
     console.log(`User.current:`);
     console.log(data);
-    Account.get(options, data, (err, response) => {
+    Account.get(options.account_id, data, (err, response) => {
       if(response.success) {
         console.log('Account.get response:');
         console.log(response);
