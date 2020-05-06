@@ -55,8 +55,6 @@ class AccountsWidget {
         if(response.success) {
           this.clear();
           this.renderItem(response.data);
-          console.log('Account.list response:')
-          console.log(response);
         } else {
           console.log(err)
         };
