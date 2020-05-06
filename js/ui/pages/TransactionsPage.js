@@ -55,7 +55,7 @@ class TransactionsPage {
     } else 
     if(confirm('Вы действительно хотите удалить счёт?')) {
       Account.remove(this.lastOptions.account_id, {}, (err, response) => {
-        if(response.success) {
+        if(response) {
           App.update();
         } else {
           console.log(err);
@@ -76,8 +76,6 @@ class TransactionsPage {
         if(response.success) {
           console.log(response);
           App.update();
-        } else if (response.success === false) {
-          console.log(response.error);
         } else {
           console.log(err);
         };
@@ -97,9 +95,7 @@ class TransactionsPage {
     }
     this.lastOptions = options;
     Account.get(options.account_id, {}, (err, response) => {
-      if(response.success) {
-        console.log(response);
-        console.log(response.data.name);
+      if(response) {
         this.renderTitle(response.data.name);
       } else {
         console.log(err);
