@@ -171,7 +171,7 @@ class TransactionsPage {
       </div>
       <div class="col-md-2 transaction__controls">
           <button class="btn btn-danger transaction__remove" data-id="${item.id}">
-              <i class="fa fa-trash">Удалить транзакцию</i>  
+              <i class="fa fa-trash transaction__remove">Удалить транзакцию</i>  
           </button>
       </div>
   </div>
